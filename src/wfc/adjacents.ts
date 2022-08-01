@@ -44,8 +44,6 @@ export const initAdjacents = () => {
       west: west,
     });
   });
-
-  console.log(adjacents);
 }
 
 export const adjacentByTileAndDirection = (tileId: number, direction: Direction): number[] => {

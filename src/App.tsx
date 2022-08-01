@@ -1,10 +1,18 @@
+import React from 'react';
+import { useReducer, createContext, Dispatch } from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { Link, Route, Routes } from 'react-router-dom';
+import AddTilePage from './pages/AddTile';
 import CorePage from './pages/Core';
 import HomePage from './pages/Home';
 import TilesPage from './pages/Tiles';
+import { TilesAction, tilesReducer, TilesState } from './store/tilesStore';
+import { tiles } from './wfc/tiles';
+
+export const TilesContext = createContext<[TilesState, Dispatch<TilesAction>]>([{tiles: []}, () => null]);
 
 function App() {
+  const [state, dispatch] = useReducer(tilesReducer, { tiles: tiles });
 
   return (
     <>
@@ -16,16 +24,20 @@ function App() {
               <Link to="/" className="nav-link">Home</Link>
               <Link to="/core" className="nav-link">Core</Link>
               <Link to="/tiles" className="nav-link">Tiles</Link>
+              <Link to="/tiles/add" className="nav-link">Add Tile</Link>
             </Nav>
           </Navbar.Collapse>
       </Navbar>
-      <Container>
-        <Routes>
-          <Route path="/core" element={<CorePage />} />
-          <Route path="/tiles" element={<TilesPage />} />
-          <Route path="/" element={<HomePage />} />
-        </Routes>
-      </Container>
+      <TilesContext.Provider value={[state, dispatch]}>
+        <Container>
+          <Routes>
+            <Route path="/core" element={<CorePage />} />
+            <Route path="/tiles" element={<TilesPage />} />
+            <Route path="/tiles/add" element={<AddTilePage />} />
+            <Route path="/" element={<HomePage />} />
+          </Routes>
+        </Container>
+      </TilesContext.Provider>
     </>
   );
 }

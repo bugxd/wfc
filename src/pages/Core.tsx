@@ -35,14 +35,9 @@ function CorePage() {
       const wfcCore = new WFCCore(width, height, GRID_COUNT, CELL_SIZE);
       while(wfcCore.remainingUncollapsedCells >0) {
         grid = wfcCore.nextStep();
-        console.log(grid);
         setUpdate((prevValue) => prevValue + 1);
-        //debugger;
-        //await new Promise(r => setTimeout(r, 2000));
       }
 
-      console.log("done");
-      console.log([...grid]);
       setUpdate((prevValue) => prevValue + 1);
     }
 

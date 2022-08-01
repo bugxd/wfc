@@ -72,13 +72,6 @@ class Cell {
 
   decreaseTileEnablersByDirection(tileId: number, direction: Direction): void {
     switch(direction) {
-      case Direction.NORTH: console.log("[Cell(" + this.id + ")] decrease north tile " + tileId + " from " + this.tileEnablerCounts[tileId].north + "-1"); break;
-      case Direction.EAST : console.log("[Cell(" + this.id + ")] decrease east tile " + tileId + " from " + this.tileEnablerCounts[tileId].east + "-1"); break;
-      case Direction.SOUTH: console.log("[Cell(" + this.id + ")] decrease south tile " + tileId + " from " + this.tileEnablerCounts[tileId].south + "-1"); break;
-      case Direction.WEST: console.log("[Cell(" + this.id + ")] decrease west tile " + tileId + " from " + this.tileEnablerCounts[tileId].west + "-1"); break;
-    }
-
-    switch(direction) {
       case Direction.NORTH: this.tileEnablerCounts[tileId].north -= 1; break;
       case Direction.EAST : this.tileEnablerCounts[tileId].east -= 1; break;
       case Direction.SOUTH: this.tileEnablerCounts[tileId].south -= 1; break;
@@ -87,8 +80,6 @@ class Cell {
   }
 
   removePossible(tileId: number): void {
-    console.log("[Cell(" + this.id + ")].remove tile " + tileId);
-
     const i = this.possible.indexOf(tileId);
     if(i > -1) {
       this.possible = [...this.possible.slice(0, i),...this.possible.slice(i+1)];
@@ -119,8 +110,6 @@ class Cell {
       }
       return true;
     });
-
-    console.log("[Cell(" + this.id + ")].collapse tile: " + tile + " remaining " + JSON.stringify([...this.possible]));
 
     this.tileId = tile;
     this.tileSvg = tiles[tile].svg;

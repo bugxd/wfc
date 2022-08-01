@@ -40,7 +40,6 @@ class WFCCore {
         this.propagate();
     } else {
       // TODO: restart something went wrong
-      console.log("no next cell?");
       throw Error("no next cell");
     }
 
@@ -52,8 +51,6 @@ class WFCCore {
     while(this.removal.length > 0) {
       const removalUpdate = this.removal.pop();
       if(!removalUpdate) { return; }
-
-      console.log("removed from cell: " + removalUpdate.cellId + " tile: " + removalUpdate.tileId);
 
       const cellId = removalUpdate.cellId;
       const tileId = removalUpdate.tileId;
@@ -74,7 +71,6 @@ class WFCCore {
 
             const enablerCount = neighbor.tileEnablersByDirection(compatibleTile, reverse);
 
-            console.log("check neighbor " + neighborId + " reverseDirection " + reverse + " compatibleTile " + compatibleTile + " enablerCount " + enablerCount);
             // check if we're about to decrement this to 0
             if(enablerCount === 1) {
               const ecNorth = neighbor.tileEnablersByDirection(compatibleTile, Direction.NORTH);
@@ -90,8 +86,6 @@ class WFCCore {
                   this.grid[neighborId].removePossible(compatibleTile);
 
                   if(this.grid[neighborId].possible.length === 0){
-                    console.log(this.grid[neighborId]);
-                    console.error("fucked up");
                     throw new Error("fucked up");
                   }
 
