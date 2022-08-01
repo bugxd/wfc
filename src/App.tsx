@@ -5,6 +5,7 @@ import { Link, Route, Routes } from 'react-router-dom';
 import AddTilePage from './pages/AddTile';
 import CorePage from './pages/Core';
 import HomePage from './pages/Home';
+import TilePage from './pages/Tile';
 import TilesPage from './pages/Tiles';
 import { TilesAction, tilesReducer, TilesState } from './store/tilesStore';
 import { tiles } from './wfc/tiles';
@@ -33,6 +34,7 @@ function App() {
           <Routes>
             <Route path="/core" element={<CorePage />} />
             <Route path="/tiles" element={<TilesPage />} />
+            <Route path="/tiles/:id" element={<TilePage />} />
             <Route path="/tiles/add" element={<AddTilePage />} />
             <Route path="/" element={<HomePage />} />
           </Routes>

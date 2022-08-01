@@ -1,4 +1,4 @@
-import { Adjacents, Direction } from "../types";
+import { Adjacents, Direction, Tile } from "../types";
 import { tiles } from "./tiles";
 
 export var adjacents: Adjacents = [];
@@ -8,33 +8,7 @@ export const frequencies: number[] = [0.2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 export const initAdjacents = () => {
   adjacents = [];
   tiles.forEach((tile, i) => {
-    var north: number[] = [];
-    var east: number[] = [];
-    var south: number[] = [];
-    var west: number[] = [];
-
-    // find north
-    tiles.forEach((atile, i) => {
-      // find norh
-      if(tile.north === atile.south){
-        north.push(i);
-      }
-
-      // find east
-      if(tile.east === atile.west){
-        east.push(i);
-      }
-
-      // find south
-      if(tile.south === atile.north){
-        south.push(i);
-      }
-
-      // find west
-      if(tile.west === atile.east){
-        west.push(i);
-      }
-    });
+    const {north, east, south, west} = calcAdjacent(tile, i);
 
     adjacents.push({
       tileId: i,
@@ -44,6 +18,43 @@ export const initAdjacents = () => {
       west: west,
     });
   });
+}
+
+export const calcAdjacent = (tile: Tile, id: number): {north: number[], east: number[], south:number[], west: number[]} => {
+  var north: number[] = [];
+  var east: number[] = [];
+  var south: number[] = [];
+  var west: number[] = [];
+
+  // find north
+  tiles.forEach((atile, i) => {
+    // find norh
+    if(tile.north === atile.south){
+      north.push(i);
+    }
+
+    // find east
+    if(tile.east === atile.west){
+      east.push(i);
+    }
+
+    // find south
+    if(tile.south === atile.north){
+      south.push(i);
+    }
+
+    // find west
+    if(tile.west === atile.east){
+      west.push(i);
+    }
+  });
+
+  return {
+    north: north,
+    east: east,
+    south: south,
+    west: west,
+  }
 }
 
 export const adjacentByTileAndDirection = (tileId: number, direction: Direction): number[] => {
