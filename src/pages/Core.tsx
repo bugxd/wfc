@@ -3,6 +3,8 @@ import Cell from '../wfc/cell';
 import { CELL_SIZE } from '../wfc/tiles';
 import WFCCore from '../wfc/WFCCore';
 
+import '../styles/CorePage.css';
+
 const GRID_COUNT: number = 10;
 const width: number = CELL_SIZE * GRID_COUNT;
 const height: number = CELL_SIZE * GRID_COUNT;
@@ -48,14 +50,24 @@ function CorePage() {
 
     const interval = setInterval(() => {
       if(wfcCore.remainingUncollapsedCells >0) {
-        const g = wfcCore.nextStep();
+        try{
+          const g = wfcCore.nextStep();
+          setGrid([...mapGrid(g)]);
+        } catch(e: unknown) {
+          var message = "Error: ";
+          if (typeof e === "string") {
+              message += e
+          } else if (e instanceof Error) {
+              message += e.message
+          }
+          alert(message);
+        }
 
-        setGrid([...mapGrid(g)]);
       } else {
         alert("Done!");
         clearInterval(interval);
       }
-    }, 1000);
+    }, 500);
 
     return () => {
       clearInterval(interval);

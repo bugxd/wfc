@@ -86,6 +86,7 @@ class WFCCore {
                   this.grid[neighborId].removePossible(compatibleTile);
 
                   if(this.grid[neighborId].possible.length === 0){
+                    this.remainingUncollapsedCells = 0;
                     throw new Error("fucked up");
                   }
 
