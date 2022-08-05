@@ -1,4 +1,3 @@
-import React from 'react';
 import { useReducer, createContext, Dispatch } from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { Link, Route, Routes } from 'react-router-dom';
@@ -7,13 +6,12 @@ import CorePage from './pages/Core';
 import HomePage from './pages/Home';
 import TilePage from './pages/Tile';
 import TilesPage from './pages/Tiles';
-import { TilesAction, tilesReducer, TilesState } from './store/tilesStore';
-import { tiles } from './wfc/tiles';
+import { initialTilesState, TilesAction, tilesReducer, TilesState } from './store/tilesStore';
 
-export const TilesContext = createContext<[TilesState, Dispatch<TilesAction>]>([{tiles: []}, () => null]);
+export const TilesContext = createContext<{state: TilesState, dispatch: Dispatch<TilesAction>}>({state: initialTilesState, dispatch: () => null});
 
 function App() {
-  const [state, dispatch] = useReducer(tilesReducer, { tiles: tiles });
+  const [state, dispatch] = useReducer(tilesReducer, initialTilesState);
 
   return (
     <>
@@ -29,7 +27,7 @@ function App() {
             </Nav>
           </Navbar.Collapse>
       </Navbar>
-      <TilesContext.Provider value={[state, dispatch]}>
+      <TilesContext.Provider value={{state, dispatch}}>
         <Container>
           <Routes>
             <Route path="/core" element={<CorePage />} />

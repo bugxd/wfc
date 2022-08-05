@@ -1,10 +1,10 @@
 import { useContext, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { TilesContext } from "../App";
-import { TielsActionKind } from "../store/tilesStore";
+import { TilesActionTypes } from "../store/tilesStore";
 
 function AddTilePage() {
-  const [_, dispatch] = useContext(TilesContext);
+  const { dispatch } = useContext(TilesContext);
   const [svg, setSvg] = useState<string>("");
   const [north, setNorth] = useState<string>("");
   const [east, setEast] = useState<string>("");
@@ -13,14 +13,14 @@ function AddTilePage() {
 
   const handleSubmit = () => {
     dispatch({
-      type: TielsActionKind.ADD,
-      payload: {
+      type: TilesActionTypes.ADD,
+      payload: {tile: {
         svg: svg,
         north: north,
         east: east,
         south: south,
         west: west,
-      }
+      }}
     });
   }
 

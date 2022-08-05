@@ -1,7 +1,5 @@
 import { Tiles } from "../types";
 
-export const CELL_SIZE = 60;
-
 export const tiles: Tiles = [
   // {
   //   svg: `<rect x="0" y="0" width="60" height="60" style="fill:rgb(255,255,255);" />`,

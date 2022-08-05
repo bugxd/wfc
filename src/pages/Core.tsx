@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import Cell from '../wfc/cell';
-import { CELL_SIZE } from '../wfc/tiles';
 import WFCCore from '../wfc/WFCCore';
 
 import '../styles/CorePage.css';
+import { TilesContext } from '../App';
 
 const GRID_COUNT: number = 10;
-const width: number = CELL_SIZE * GRID_COUNT;
-const height: number = CELL_SIZE * GRID_COUNT;
 
 function CorePage() {
+  const { state } = useContext(TilesContext);
+  const width: number = useMemo(() => state.cellSize * GRID_COUNT, [state.cellSize]);
+  const height: number = useMemo(() => state.cellSize * GRID_COUNT, [state.cellSize]);
+
   const [grid, setGrid] = useState<Cell[][]>([]);
 
   const mapGrid = (toMap: Cell[]): Cell[][] => {
@@ -33,20 +35,20 @@ function CorePage() {
     <text x="30" y="30" class="small">${cell.possible.length}</text>`;
 
 
-    const image = `<svg viewBox='0 0 ${CELL_SIZE} ${CELL_SIZE}' height='${CELL_SIZE}' width='${CELL_SIZE}' xmlns='http://www.w3.org/2000/svg'>
+    const image = `<svg viewBox='0 0 ${state.cellSize} ${state.cellSize}' height='${state.cellSize}' width='${state.cellSize}' xmlns='http://www.w3.org/2000/svg'>
         ${tile}
     </svg>`
 
     return (
       <img
-        width = { CELL_SIZE }
-        height = { CELL_SIZE }
+        width = { state.cellSize }
+        height = { state.cellSize }
         src={ `data:image/svg+xml;utf8,${image}`} alt={`cell_${cell.id}` }/>
     );
   }
 
   useEffect(() => {
-    const wfcCore = new WFCCore(width, height, GRID_COUNT, CELL_SIZE);
+    const wfcCore = new WFCCore(width, height, GRID_COUNT, state.cellSize);
 
     const interval = setInterval(() => {
       if(wfcCore.remainingUncollapsedCells >0) {
@@ -72,7 +74,7 @@ function CorePage() {
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [state.cellSize, height, width]);
 
   return (
     <table>
