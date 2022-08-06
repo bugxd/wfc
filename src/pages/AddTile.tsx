@@ -24,7 +24,7 @@ function AddTilePage() {
     dispatch({
       type: TilesActionTypes.ADD,
       payload: {tile: {
-        svg: svg.join(),
+        svg: svg.join(""),
         north: north,
         east: east,
         south: south,

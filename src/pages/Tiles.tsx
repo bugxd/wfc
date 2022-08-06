@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { TilesContext } from "../App";
+import CellDownload from "../components/CellDownload";
 
 function TilesPage() {
   const { state } = useContext(TilesContext);
@@ -12,6 +13,8 @@ function TilesPage() {
   }
 
   return (
+    <>
+    <Row><Col><CellDownload /></Col></Row>
     <Row>
       {state.tiles.map((tile, id) => {
         const image = `<svg viewBox='0 0 ${state.cellSize+40} ${state.cellSize+40}' height='${state.cellSize+40}' width='${state.cellSize+40}' xmlns='http://www.w3.org/2000/svg'>
@@ -36,6 +39,7 @@ function TilesPage() {
         );
     })}
     </Row>
+    </>
   );
 }
 
