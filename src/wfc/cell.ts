@@ -1,6 +1,5 @@
-import { Direction } from "../types";
-import { adjacents, frequencies } from "./adjacents";
-import { tiles } from "./tiles";
+import { Adjacents, Direction, Tiles } from "../types";
+import { frequencies } from "./adjacents";
 
 interface TileEnablerCount  {
   tileId: number;
@@ -22,6 +21,7 @@ class Cell {
 
   // remaining possible tiles for this cell
   possible: number[];
+  tiles: Tiles;
 
   sumPossibleTileWeights: number;
   sumPossibleTileWeighsLogWeights: number;
@@ -30,12 +30,14 @@ class Cell {
 
   tileEnablerCounts: TileEnablerCount[];
 
-  constructor(id: number, x: number, y: number, possible: number[]) {
+  constructor(id: number, x: number, y: number, possible: number[],tiles: Tiles, adjacents: Adjacents) {
     this.id=id;
     this.x = x;
     this.y = y;
     this.collapsed = false;
     this.possible = possible;
+
+    this.tiles = tiles;
 
     this.sumPossibleTileWeights = 0;
     this.sumPossibleTileWeighsLogWeights = 0;
@@ -50,6 +52,7 @@ class Cell {
 
     this.tileEnablerCounts = [];
     tiles.forEach((_, i) => {
+      console.log(i);
       var adjacent = adjacents[i];
       this.tileEnablerCounts.push({
         tileId: i,
@@ -112,7 +115,7 @@ class Cell {
     });
 
     this.tileId = tile;
-    this.tileSvg = tiles[tile].svg;
+    this.tileSvg = this.tiles[tile].svg;
 
     var removedPossibleTiles: number[] = [];
     const i = this.possible.indexOf(tile);

@@ -47,7 +47,7 @@ export interface TilesState {
 }
 
 export const initialTilesState: TilesState = {
-  cellSize: 0,
+  cellSize: 60,
   tiles: [],
 }
 

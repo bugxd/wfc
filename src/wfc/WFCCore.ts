@@ -1,5 +1,4 @@
-import { EntropyCell, TileRemoval, Direction } from './../types';
-import { tiles } from './tiles';
+import { EntropyCell, TileRemoval, Direction, Tiles, Adjacents } from './../types';
 import { initAdjacents, adjacentByTileAndDirection } from './adjacents';
 import Cell from './cell';
 
@@ -9,19 +8,20 @@ class WFCCore {
   grid: Cell[] = [];
   heap: EntropyCell[] = [];
   removal: TileRemoval[] = []; // tile ids
+  adjacents: Adjacents = [];
 
   GRID_COUNT: number;
 
-  constructor(width: number, height: number, GRID_COUNT: number, CELL_SIZE: number) {
+  constructor(tiles: Tiles, width: number, height: number, GRID_COUNT: number, CELL_SIZE: number) {
     this.GRID_COUNT = GRID_COUNT;
 
     // init adjacents rules
-    initAdjacents();
+    this.adjacents = initAdjacents(tiles);
 
     const possible = tiles.map((_, i) => i);
     for(var x = 0; x < height; x+=CELL_SIZE) {
       for(var y = 0; y < width; y+=CELL_SIZE) {
-        this.grid.push(new Cell(this.remainingUncollapsedCells, y, x, [...possible]));
+        this.grid.push(new Cell(this.remainingUncollapsedCells, y, x, [...possible], tiles, this.adjacents));
         this.remainingUncollapsedCells++;
       }
     }
@@ -64,7 +64,7 @@ class WFCCore {
         const reverse = this.reverseDirection(direction);
         const neighbor = this.grid[neighborId];
 
-        const compatibleTiles = adjacentByTileAndDirection(tileId, direction);
+        const compatibleTiles = adjacentByTileAndDirection(this.adjacents, tileId, direction);
         if(compatibleTiles && !this.grid[neighborId].collapsed) {
           for(var j = 0; j< compatibleTiles.length; j++) {
             const compatibleTile = compatibleTiles[j];

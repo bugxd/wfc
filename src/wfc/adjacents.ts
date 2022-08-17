@@ -1,14 +1,11 @@
-import { Adjacents, Direction, Tile } from "../types";
-import { tiles } from "./tiles";
+import { Adjacents, Direction, Tile, Tiles } from "../types";
 
-export var adjacents: Adjacents = [];
+export const frequencies: number[] = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
 
-export const frequencies: number[] = [0.2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
-
-export const initAdjacents = () => {
-  adjacents = [];
+export const initAdjacents = (tiles: Tiles): Adjacents => {
+  var adjacents: Adjacents = [];
   tiles.forEach((tile, i) => {
-    const {north, east, south, west} = calcAdjacent(tile, i);
+    const {north, east, south, west} = calcAdjacent(tiles, tile);
 
     adjacents.push({
       tileId: i,
@@ -18,9 +15,11 @@ export const initAdjacents = () => {
       west: west,
     });
   });
+
+  return adjacents;
 }
 
-export const calcAdjacent = (tile: Tile, id: number): {north: number[], east: number[], south:number[], west: number[]} => {
+export const calcAdjacent = (tiles: Tiles, tile: Tile): {north: number[], east: number[], south:number[], west: number[]} => {
   var north: number[] = [];
   var east: number[] = [];
   var south: number[] = [];
@@ -57,7 +56,7 @@ export const calcAdjacent = (tile: Tile, id: number): {north: number[], east: nu
   }
 }
 
-export const adjacentByTileAndDirection = (tileId: number, direction: Direction): number[] => {
+export const adjacentByTileAndDirection = (adjacents: Adjacents, tileId: number, direction: Direction): number[] => {
   switch(direction) {
     case Direction.NORTH: return adjacents[tileId].north;
     case Direction.EAST : return adjacents[tileId].east;

@@ -8,7 +8,7 @@ function TilePage() {
   const { id } = useParams();
   const { state } = useContext(TilesContext);
 
-  const {north, east, south, west} = calcAdjacent(state.tiles[+(id ?? 0)], +(id ?? 0));
+  const {north, east, south, west} = calcAdjacent(state.tiles, state.tiles[+(id ?? 0)]);
 
   const renderTile  = (id:number) => {
     const tile = state.tiles[id];

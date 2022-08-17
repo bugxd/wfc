@@ -17,7 +17,7 @@ function AddTilePage() {
   }
 
   const handleDeleteSvg = (index: number) => {
-    setSvg([...svg.slice(index)]);
+    setSvg([...svg.slice(0, index),...svg.slice(index+1)]);
   }
 
   const handleSubmit = () => {
@@ -31,6 +31,14 @@ function AddTilePage() {
         west: west,
       }}
     });
+
+    setSvg([]);
+    setNorth("");
+    setEast("");
+    setSouth("");
+    setWest("");
+
+    alert("Saved");
   }
 
   const preview  = () => {
@@ -57,7 +65,7 @@ function AddTilePage() {
     <>
     <Row><Col>{preview()}</Col></Row>
     {svg.map((x, i) => (
-      <Row>
+      <Row key={`svg_elems_${i}`}>
         <Col xs={10}><pre style={{fontSize: 10}}><code>{x}</code></pre></Col>
         <Col><Button variant="danger" onClick={() => handleDeleteSvg(i)} >Delete</Button></Col>
       </Row>
