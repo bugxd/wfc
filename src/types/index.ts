@@ -32,3 +32,9 @@ export enum Direction{
   SOUTH = 2,
   WEST = 3,
 }
+
+export interface DataFile {
+  cellSize: number,
+  tiles: Tile[],
+  frequencies: number[],
+}

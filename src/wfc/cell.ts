@@ -1,5 +1,4 @@
 import { Adjacents, Direction, Tiles } from "../types";
-import { frequencies } from "./adjacents";
 
 interface TileEnablerCount  {
   tileId: number;
@@ -22,6 +21,7 @@ class Cell {
   // remaining possible tiles for this cell
   possible: number[];
   tiles: Tiles;
+  frequencies: number[];
 
   sumPossibleTileWeights: number;
   sumPossibleTileWeighsLogWeights: number;
@@ -30,7 +30,7 @@ class Cell {
 
   tileEnablerCounts: TileEnablerCount[];
 
-  constructor(id: number, x: number, y: number, possible: number[],tiles: Tiles, adjacents: Adjacents) {
+  constructor(id: number, x: number, y: number, possible: number[],tiles: Tiles, adjacents: Adjacents, frequencies: number[]) {
     this.id=id;
     this.x = x;
     this.y = y;
@@ -38,6 +38,7 @@ class Cell {
     this.possible = possible;
 
     this.tiles = tiles;
+    this.frequencies = frequencies;
 
     this.sumPossibleTileWeights = 0;
     this.sumPossibleTileWeighsLogWeights = 0;
@@ -88,7 +89,7 @@ class Cell {
       this.possible = [...this.possible.slice(0, i),...this.possible.slice(i+1)];
     }
 
-    const freq = frequencies[tileId]
+    const freq = this.frequencies[tileId]
     this.sumPossibleTileWeights -= freq;
     this.sumPossibleTileWeighsLogWeights -= freq*Math.log(freq);
   }
@@ -104,7 +105,7 @@ class Cell {
 
     var tile = 0;
     this.possible.every(tileId => {
-      const weight = frequencies[tileId];
+      const weight = this.frequencies[tileId];
       if (remaining >= weight) {
           remaining -= weight;
       } else {

@@ -12,7 +12,7 @@ class WFCCore {
 
   GRID_COUNT: number;
 
-  constructor(tiles: Tiles, width: number, height: number, GRID_COUNT: number, CELL_SIZE: number) {
+  constructor(tiles: Tiles, frequencies: number[], width: number, height: number, GRID_COUNT: number, CELL_SIZE: number) {
     this.GRID_COUNT = GRID_COUNT;
 
     // init adjacents rules
@@ -21,7 +21,7 @@ class WFCCore {
     const possible = tiles.map((_, i) => i);
     for(var x = 0; x < height; x+=CELL_SIZE) {
       for(var y = 0; y < width; y+=CELL_SIZE) {
-        this.grid.push(new Cell(this.remainingUncollapsedCells, y, x, [...possible], tiles, this.adjacents));
+        this.grid.push(new Cell(this.remainingUncollapsedCells, y, x, [...possible], tiles, this.adjacents, frequencies));
         this.remainingUncollapsedCells++;
       }
     }

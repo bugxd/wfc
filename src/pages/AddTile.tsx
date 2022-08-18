@@ -11,6 +11,7 @@ function AddTilePage() {
   const [east, setEast] = useState<string>("");
   const [south, setSouth] = useState<string>("");
   const [west, setWest] = useState<string>("");
+  const [frequency, setFrequency] = useState<number>(1);
 
   const handleAddSvg = (add: string) => {
     setSvg([...svg, add]);
@@ -23,13 +24,16 @@ function AddTilePage() {
   const handleSubmit = () => {
     dispatch({
       type: TilesActionTypes.ADD,
-      payload: {tile: {
-        svg: svg.join(""),
-        north: north,
-        east: east,
-        south: south,
-        west: west,
-      }}
+      payload: {
+        tile: {
+          svg: svg.join(""),
+          north: north,
+          east: east,
+          south: south,
+          west: west,
+        },
+        frequency: frequency
+      }
     });
 
     setSvg([]);
@@ -37,6 +41,7 @@ function AddTilePage() {
     setEast("");
     setSouth("");
     setWest("");
+    setFrequency(1);
 
     alert("Saved");
   }
@@ -100,6 +105,14 @@ function AddTilePage() {
           <Form.Control type="text" placeholder="West" value={west} onChange={e => setWest(e.target.value)} />
         </Form.Group>
       </Col>
+    </Row>
+      <Col>
+        <Form.Group className="mb-3" controlId="formFreuency">
+          <Form.Label>Frequency</Form.Label>
+          <Form.Control type="number" placeholder="Frequency" value={frequency} onChange={e => setFrequency(+e.target.value)} />
+        </Form.Group>
+      </Col>
+    <Row>
     </Row>
     <Row>
       <Col>

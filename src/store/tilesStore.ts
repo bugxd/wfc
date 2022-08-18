@@ -25,9 +25,11 @@ export enum TilesActionTypes {
 type TielsActionPayload = {
   [TilesActionTypes.REPLACE_ALL] : {
     tiles: Tile[];
+    frequencies: number[];
   };
   [TilesActionTypes.ADD] : {
     tile: Tile;
+    frequency: number;
   };
   [TilesActionTypes.DELETE]: {
     index: number;
@@ -44,11 +46,13 @@ export type TilesAction = ActionMap<TielsActionPayload>[keyof ActionMap<TielsAct
 export interface TilesState {
   cellSize: number;
   tiles: Tile[];
+  frequencies: number[];
 }
 
 export const initialTilesState: TilesState = {
   cellSize: 60,
   tiles: [],
+  frequencies: [],
 }
 
 // Our reducer function that uses a switch statement to handle our actions
@@ -58,17 +62,20 @@ export function tilesReducer(state: TilesState, action: TilesAction): TilesState
     case TilesActionTypes.REPLACE_ALL:
       return {
         ...state,
-        tiles: payload.tiles
+        tiles: payload.tiles,
+        frequencies: payload.frequencies
       };
     case TilesActionTypes.ADD:
       return {
         ...state,
-        tiles: [...state.tiles, payload.tile]
+        tiles: [...state.tiles, payload.tile],
+        frequencies: [...state.frequencies, payload.frequency]
       };
     case TilesActionTypes.DELETE:
       return {
         ...state,
-        tiles: [...state.tiles.slice(payload.index)]
+        tiles: [...state.tiles.slice(payload.index)],
+        frequencies: [...state.frequencies.slice(payload.index)],
       };
     case TilesActionTypes.SET_CELLSIZE:
       return {

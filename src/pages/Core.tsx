@@ -48,7 +48,7 @@ function CorePage() {
   }
 
   useEffect(() => {
-    const wfcCore = new WFCCore(state.tiles, width, height, GRID_COUNT, state.cellSize);
+    const wfcCore = new WFCCore(state.tiles, state.frequencies, width, height, GRID_COUNT, state.cellSize);
 
     const interval = setInterval(() => {
       if(wfcCore.remainingUncollapsedCells >0) {
