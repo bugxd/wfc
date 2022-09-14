@@ -9,24 +9,55 @@ function SvgCreator({ callback }: SvgCreatorProps) {
   return(
     <Accordion defaultActiveKey="0">
       <Accordion.Item eventKey="0">
-        <Accordion.Header>Add Line</Accordion.Header>
-        <Accordion.Body>
-          <LineCreator callback={callback} />
-        </Accordion.Body>
-      </Accordion.Item>
-      <Accordion.Item eventKey="1">
-        <Accordion.Header>Add Rect</Accordion.Header>
-        <Accordion.Body>
-          <RectCreator callback={callback} />
-        </Accordion.Body>
-      </Accordion.Item>
-      <Accordion.Item eventKey="2">
         <Accordion.Header>Add Path</Accordion.Header>
         <Accordion.Body>
           <PathCreator callback={callback} />
         </Accordion.Body>
       </Accordion.Item>
+      <Accordion.Item eventKey="1">
+        <Accordion.Header>Add Line</Accordion.Header>
+        <Accordion.Body>
+          <LineCreator callback={callback} />
+        </Accordion.Body>
+      </Accordion.Item>
+      <Accordion.Item eventKey="2">
+        <Accordion.Header>Add Rect</Accordion.Header>
+        <Accordion.Body>
+          <RectCreator callback={callback} />
+        </Accordion.Body>
+      </Accordion.Item>
+      <Accordion.Item eventKey="3">
+        <Accordion.Header>Add Circle</Accordion.Header>
+        <Accordion.Body>
+          <CircleCreator callback={callback} />
+        </Accordion.Body>
+      </Accordion.Item>
     </Accordion>
+  )
+}
+
+function PathCreator({ callback }: SvgCreatorProps) {
+  const [path, setPath] = useState<string>("");
+  const [strokeWidth, setStrokeWidth] = useState<number>(0);
+
+  const handleSubmit = () => {
+    callback(`<path d="${path}" stroke="black" stroke-width="${strokeWidth}" fill="none" />`)
+  }
+
+  return (
+    <>
+      <Form.Group className="mb-3" controlId="formPath">
+        <Form.Label>Paht</Form.Label>
+        <Form.Control type="text" placeholder="Path" value={path} onChange={e => setPath(e.target.value)} />
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="formStrokeWidth">
+        <Form.Label>Stroke Width</Form.Label>
+        <Form.Control type="number" placeholder="Stroke Width" value={strokeWidth} onChange={e => setStrokeWidth(+e.target.value)} />
+      </Form.Group>
+      <Button variant="primary" onClick={handleSubmit}>
+        Add
+      </Button>
+    </>
   )
 }
 
@@ -110,19 +141,29 @@ function RectCreator({ callback }: SvgCreatorProps) {
   )
 }
 
-function PathCreator({ callback }: SvgCreatorProps) {
-  const [path, setPath] = useState<string>("");
+function CircleCreator({ callback }: SvgCreatorProps) {
+  const [cx, setCX] = useState<number>(0);
+  const [cy, setCY] = useState<number>(0);
+  const [r, setR] = useState<number>(0);
   const [strokeWidth, setStrokeWidth] = useState<number>(0);
 
   const handleSubmit = () => {
-    callback(`<path d="${path}" stroke="black" stroke-width="${strokeWidth}" fill="none" />`)
+    callback(`<circle cx="${cx}" cy="${cy}" r="${r}" stroke="black" stroke-width="${strokeWidth}" fill="black" />`)
   }
 
   return (
     <>
-      <Form.Group className="mb-3" controlId="formPath">
-        <Form.Label>Paht</Form.Label>
-        <Form.Control type="text" placeholder="Path" value={path} onChange={e => setPath(e.target.value)} />
+      <Form.Group className="mb-3" controlId="formCX">
+        <Form.Label>CX</Form.Label>
+        <Form.Control type="number" placeholder="CX" value={cx} onChange={e => setCX(+e.target.value)} />
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="formCY">
+        <Form.Label>CY</Form.Label>
+        <Form.Control type="number" placeholder="CY" value={cy} onChange={e => setCY(+e.target.value)} />
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="formR">
+        <Form.Label>R</Form.Label>
+        <Form.Control type="number" placeholder="R" value={r} onChange={e => setR(+e.target.value)} />
       </Form.Group>
       <Form.Group className="mb-3" controlId="formStrokeWidth">
         <Form.Label>Stroke Width</Form.Label>

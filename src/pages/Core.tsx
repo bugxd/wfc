@@ -5,7 +5,7 @@ import WFCCore from '../wfc/WFCCore';
 import '../styles/CorePage.css';
 import { TilesContext } from '../App';
 
-const GRID_COUNT: number = 10;
+const GRID_COUNT: number = 20;
 
 function CorePage() {
   const { state } = useContext(TilesContext);
@@ -74,7 +74,7 @@ function CorePage() {
     return () => {
       clearInterval(interval);
     };
-  }, [state.tiles, state.cellSize, height, width]);
+  }, [state.tiles, state.frequencies, state.cellSize, height, width]);
 
   return (
     <table>
