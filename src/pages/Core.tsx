@@ -1,33 +1,19 @@
 import { useContext, useEffect, useMemo, useState } from 'react';
-import Cell from '../wfc/cell';
+import Cell, { Grid } from '../wfc/cell';
 import WFCCore from '../wfc/WFCCore';
 
 import '../styles/CorePage.css';
 import { TilesContext } from '../App';
 
-const GRID_COUNT: number = 20;
+const GRID_SIZE_X: number = 20;
+const GRID_SIZE_Y: number = 60;
 
 function CorePage() {
   const { state } = useContext(TilesContext);
-  const width: number = useMemo(() => state.cellSize * GRID_COUNT, [state.cellSize]);
-  const height: number = useMemo(() => state.cellSize * GRID_COUNT, [state.cellSize]);
+  const width: number = useMemo(() => state.cellSize * GRID_SIZE_X, [state.cellSize]);
+  const height: number = useMemo(() => state.cellSize * GRID_SIZE_Y, [state.cellSize]);
 
-  const [grid, setGrid] = useState<Cell[][]>([]);
-
-  const mapGrid = (toMap: Cell[]): Cell[][] => {
-    let g: Cell [][] = [];
-
-    for (var i = 0; i < GRID_COUNT; i++){
-      const start = i * GRID_COUNT;
-      const end = start + GRID_COUNT;
-
-      const row = toMap.slice(start, end);
-
-      g.push(row);
-    }
-
-    return g;
-  }
+  const [grid, setGrid] = useState<Grid>([]);
 
   const renderTile  = (cell: Cell) => {
     const tile = cell.tileSvg ??
@@ -48,13 +34,13 @@ function CorePage() {
   }
 
   useEffect(() => {
-    const wfcCore = new WFCCore(state.tiles, state.frequencies, width, height, GRID_COUNT, state.cellSize);
+    const wfcCore = new WFCCore(state.tiles, state.frequencies, GRID_SIZE_X, GRID_SIZE_Y);
 
     const interval = setInterval(() => {
       if(wfcCore.remainingUncollapsedCells >0) {
         try{
           const g = wfcCore.nextStep();
-          setGrid([...mapGrid(g)]);
+          setGrid([...g]);
         } catch(e: unknown) {
           var message = "Error: ";
           if (typeof e === "string") {

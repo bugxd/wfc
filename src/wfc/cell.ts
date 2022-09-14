@@ -31,7 +31,7 @@ class Cell {
   tileEnablerCounts: TileEnablerCount[];
 
   constructor(id: number, x: number, y: number, possible: number[],tiles: Tiles, adjacents: Adjacents, frequencies: number[]) {
-    this.id=id;
+    this.id = id;
     this.x = x;
     this.y = y;
     this.collapsed = false;
@@ -53,7 +53,6 @@ class Cell {
 
     this.tileEnablerCounts = [];
     tiles.forEach((_, i) => {
-      console.log(i);
       var adjacent = adjacents[i];
       this.tileEnablerCounts.push({
         tileId: i,
@@ -130,5 +129,7 @@ class Cell {
     return removedPossibleTiles;
   }
 };
+
+export type Grid = Cell[][];
 
 export default Cell;

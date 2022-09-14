@@ -17,12 +17,14 @@ export interface Adjacent {
 export type Adjacents = Adjacent[];
 
 export interface EntropyCell {
-  cellId : number;
+  cellX: number;
+  cellY: number;
   entropy: number;
 }
 
 export interface TileRemoval {
-  cellId: number;
+  cellX: number;
+  cellY: number;
   tileId: number;
 }
 
@@ -32,6 +34,13 @@ export enum Direction{
   SOUTH = 2,
   WEST = 3,
 }
+
+export interface Neighbor {
+  direction: Direction,
+  x: number,
+  y: number
+}
+export type Neighbors = Neighbor[]
 
 export interface DataFile {
   cellSize: number,

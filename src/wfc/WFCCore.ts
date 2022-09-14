@@ -1,40 +1,48 @@
-import { EntropyCell, TileRemoval, Direction, Tiles, Adjacents } from './../types';
+import { EntropyCell, TileRemoval, Direction, Tiles, Adjacents, Neighbors } from './../types';
 import { initAdjacents, adjacentByTileAndDirection } from './adjacents';
-import Cell from './cell';
+import Cell, { Grid } from './cell';
 
 class WFCCore {
   remainingUncollapsedCells: number = 0;
 
-  grid: Cell[] = [];
+  grid: Grid = [];
+
   heap: EntropyCell[] = [];
   removal: TileRemoval[] = []; // tile ids
   adjacents: Adjacents = [];
 
-  GRID_COUNT: number;
+  GRID_SIZE_X: number;
+  GRID_SIZE_Y: number;
 
-  constructor(tiles: Tiles, frequencies: number[], width: number, height: number, GRID_COUNT: number, CELL_SIZE: number) {
-    this.GRID_COUNT = GRID_COUNT;
+  constructor(tiles: Tiles, frequencies: number[], GRID_SIZE_X: number, GRID_SIZE_Y: number) {
+    this.GRID_SIZE_X = GRID_SIZE_X;
+    this.GRID_SIZE_Y = GRID_SIZE_Y;
 
     // init adjacents rules
     this.adjacents = initAdjacents(tiles);
 
     const possible = tiles.map((_, i) => i);
-    for(var x = 0; x < height; x+=CELL_SIZE) {
-      for(var y = 0; y < width; y+=CELL_SIZE) {
-        this.grid.push(new Cell(this.remainingUncollapsedCells, y, x, [...possible], tiles, this.adjacents, frequencies));
+    for(var x = 0; x < GRID_SIZE_X; x++) {
+      var row = []
+
+      for(var y = 0; y < GRID_SIZE_Y; y++) {
+        row.push(new Cell(this.remainingUncollapsedCells, y, x, [...possible], tiles, this.adjacents, frequencies));
         this.remainingUncollapsedCells++;
       }
+
+      this.grid.push(row);
     }
   }
 
-  nextStep(): Cell[]{
+  nextStep(): Grid {
     this.updateHeap();
     const nextCell = this.heap.shift();
 
     if(nextCell) {
-        const removedTiles = this.grid[nextCell.cellId].collapse();
+        const removedTiles = this.grid[nextCell.cellX][nextCell.cellY].collapse();
         removedTiles.forEach(tileId => this.removal.push({
-          cellId: nextCell.cellId,
+          cellX: nextCell.cellX,
+          cellY: nextCell.cellY,
           tileId: tileId,
         }));
         this.propagate();
@@ -52,20 +60,22 @@ class WFCCore {
       const removalUpdate = this.removal.pop();
       if(!removalUpdate) { return; }
 
-      const cellId = removalUpdate.cellId;
+      const cellX = removalUpdate.cellX;
+      const cellY = removalUpdate.cellY;
       const tileId = removalUpdate.tileId;
 
-      const neighbors = this.getNeighbors(cellId);
+      const neighbors = this.getNeighbors(cellX, cellY);
 
       for(var i = 0; i < neighbors.length; i++) {
         const direction = neighbors[i].direction;
-        const neighborId = neighbors[i].id;
+        const neighborX = neighbors[i].x;
+        const neighborY = neighbors[i].y;
 
         const reverse = this.reverseDirection(direction);
-        const neighbor = this.grid[neighborId];
+        const neighbor = this.grid[neighborX][neighborY];
 
         const compatibleTiles = adjacentByTileAndDirection(this.adjacents, tileId, direction);
-        if(compatibleTiles && !this.grid[neighborId].collapsed) {
+        if(compatibleTiles && !this.grid[neighborX][neighborY].collapsed) {
           for(var j = 0; j< compatibleTiles.length; j++) {
             const compatibleTile = compatibleTiles[j];
 
@@ -82,16 +92,17 @@ class WFCCore {
               // the potential tile has already been removed,
               // and we want to avoid removing it again
               if(!(ecNorth <= 0 || ecEast <= 0 || ecSouth <= 0 || ecWest <= 0)) {
-                if(this.grid[neighborId]) {
-                  this.grid[neighborId].removePossible(compatibleTile);
+                if(this.grid[neighborX][neighborY]) {
+                  this.grid[neighborX][neighborY].removePossible(compatibleTile);
 
-                  if(this.grid[neighborId].possible.length === 0){
+                  if(this.grid[neighborX][neighborY].possible.length === 0){
                     this.remainingUncollapsedCells = 0;
                     throw new Error("fucked up");
                   }
 
                   this.removal.push({
-                    cellId: neighborId,
+                    cellX: neighborX,
+                    cellY: neighborY,
                     tileId: compatibleTile,
                   });
                 }
@@ -113,34 +124,38 @@ class WFCCore {
     }
   }
 
-  getNeighbors(cellId: number): {direction: Direction, id: number}[] {
-    var neighbors: {direction: Direction, id: number}[] = [];
+  getNeighbors(x: number, y:number): Neighbors {
+    var neighbors: Neighbors = [];
 
-    if(!(cellId < this.GRID_COUNT)) {
+    if(x >= 1){
       neighbors.push({
         direction: Direction.NORTH,
-        id: cellId - this.GRID_COUNT,
+        x: x - 1,
+        y: y,
       });
     }
 
-    if(!(cellId % this.GRID_COUNT === this.GRID_COUNT-1)) {
-      neighbors.push({
-        direction: Direction.EAST,
-        id: cellId + 1,
-      });
-    }
-
-    if(!(cellId + this.GRID_COUNT > (this.GRID_COUNT * this.GRID_COUNT)-1)) {
+    if(x < this.GRID_SIZE_X){
       neighbors.push({
         direction: Direction.SOUTH,
-        id: cellId + this.GRID_COUNT,
+        x: x + 1,
+        y: y,
       });
     }
 
-    if(!(cellId % this.GRID_COUNT === 0)) {
+    if(y >= 1){
       neighbors.push({
         direction: Direction.WEST,
-        id: cellId - 1,
+        x: x,
+        y: y-1,
+      });
+    }
+
+    if(y < this.GRID_SIZE_Y){
+      neighbors.push({
+        direction: Direction.EAST,
+        x: x,
+        y: y+1,
       });
     }
 
@@ -148,10 +163,14 @@ class WFCCore {
   }
 
   updateHeap() {
-    const h = [...this.grid
-      .filter((cell: Cell)=> !cell.collapsed)
-      .map((cell: Cell) => ({cellId: cell.id, entropy: cell.entropy()}))
-    ];
+    var h: EntropyCell[] = [];
+    for(var x: number = 0; x < this.GRID_SIZE_X; x++) {
+      for(var y:number = 0; y < this.GRID_SIZE_Y; y++) {
+        if(!this.grid[x][y].collapsed) {
+          h.push({cellX: x, cellY: y, entropy: this.grid[x][y].entropy()})
+        }
+      }
+    }
 
     this.heap = h.sort((a, b) => a.entropy - b.entropy);
   }

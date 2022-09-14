@@ -18,7 +18,6 @@ function HomePage() {
   }
 
   const handleDrop = (content: string | ArrayBuffer | null ) => {
-    console.log("type: "+ (typeof content));
     if(!content) {
       console.log("empty file?");
       return;
