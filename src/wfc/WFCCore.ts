@@ -1,6 +1,7 @@
 import { EntropyCell, TileRemoval, Direction, Tiles, Adjacents, Neighbors } from './../types';
 import { initAdjacents, adjacentByTileAndDirection } from './adjacents';
 import Cell, { Grid } from './cell';
+import Heap from './heap';
 import NeighborsHelper from './neighbours';
 
 class WFCCore {
@@ -10,7 +11,7 @@ class WFCCore {
 
   neighbors: NeighborsHelper;
 
-  heap: EntropyCell[] = [];
+  heap: Heap<EntropyCell>;
   removal: TileRemoval[] = []; // tile ids
   adjacents: Adjacents = [];
 
@@ -22,6 +23,7 @@ class WFCCore {
     this.GRID_COLS = GRID_COLS;
 
     this.neighbors = new NeighborsHelper(GRID_ROWS, GRID_COLS);
+    this.heap = new Heap<EntropyCell>();
 
     // init adjacents rules
     this.adjacents = initAdjacents(tiles);
@@ -41,7 +43,7 @@ class WFCCore {
 
   nextStep(): Grid {
     this.updateHeap();
-    const nextCell = this.heap.shift();
+    const nextCell = this.heap.pop();
 
     if(nextCell) {
         const removedTiles = this.grid[nextCell.cellX][nextCell.cellY].collapse();
@@ -130,16 +132,16 @@ class WFCCore {
   }
 
   updateHeap() {
-    var h: EntropyCell[] = [];
+    this.heap.clear();
     for(var row: number = 0; row < this.GRID_ROWS; row++) {
       for(var col:number = 0; col < this.GRID_COLS; col++) {
         if(!this.grid[row][col].collapsed) {
-          h.push({cellX: row, cellY: col, entropy: this.grid[row][col].entropy()})
+          this.heap.push({cellX: row, cellY: col, entropy: this.grid[row][col].entropy()})
         }
       }
     }
 
-    this.heap = h.sort((a, b) => a.entropy - b.entropy);
+    this.heap.order((a, b) => a.entropy - b.entropy);
   }
 }
 
