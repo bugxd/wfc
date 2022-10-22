@@ -5,13 +5,13 @@ import WFCCore from '../wfc/WFCCore';
 import '../styles/CorePage.css';
 import { TilesContext } from '../App';
 
-const GRID_SIZE_X: number = 20;
-const GRID_SIZE_Y: number = 60;
+const GRID_ROWS: number = 20;
+const GRID_COLS: number = 60;
 
 function CorePage() {
   const { state } = useContext(TilesContext);
-  const width: number = useMemo(() => state.cellSize * GRID_SIZE_X, [state.cellSize]);
-  const height: number = useMemo(() => state.cellSize * GRID_SIZE_Y, [state.cellSize]);
+  const width: number = useMemo(() => state.cellSize * GRID_ROWS, [state.cellSize]);
+  const height: number = useMemo(() => state.cellSize * GRID_COLS, [state.cellSize]);
 
   const [grid, setGrid] = useState<Grid>([]);
 
@@ -34,7 +34,7 @@ function CorePage() {
   }
 
   useEffect(() => {
-    const wfcCore = new WFCCore(state.tiles, state.frequencies, GRID_SIZE_X, GRID_SIZE_Y);
+    const wfcCore = new WFCCore(state.tiles, state.frequencies, GRID_ROWS, GRID_COLS);
 
     const interval = setInterval(() => {
       if(wfcCore.remainingUncollapsedCells >0) {
@@ -47,6 +47,7 @@ function CorePage() {
               message += e
           } else if (e instanceof Error) {
               message += e.message
+              console.error(e.stack);
           }
           alert(message);
         }
@@ -55,7 +56,7 @@ function CorePage() {
         alert("Done!");
         clearInterval(interval);
       }
-    }, 500);
+    }, 100);
 
     return () => {
       clearInterval(interval);

@@ -1,31 +1,36 @@
 import { EntropyCell, TileRemoval, Direction, Tiles, Adjacents, Neighbors } from './../types';
 import { initAdjacents, adjacentByTileAndDirection } from './adjacents';
 import Cell, { Grid } from './cell';
+import NeighborsHelper from './neighbours';
 
 class WFCCore {
   remainingUncollapsedCells: number = 0;
 
   grid: Grid = [];
 
+  neighbors: NeighborsHelper;
+
   heap: EntropyCell[] = [];
   removal: TileRemoval[] = []; // tile ids
   adjacents: Adjacents = [];
 
-  GRID_SIZE_X: number;
-  GRID_SIZE_Y: number;
+  GRID_ROWS: number;
+  GRID_COLS: number;
 
-  constructor(tiles: Tiles, frequencies: number[], GRID_SIZE_X: number, GRID_SIZE_Y: number) {
-    this.GRID_SIZE_X = GRID_SIZE_X;
-    this.GRID_SIZE_Y = GRID_SIZE_Y;
+  constructor(tiles: Tiles, frequencies: number[], GRID_ROWS: number, GRID_COLS: number) {
+    this.GRID_ROWS = GRID_ROWS;
+    this.GRID_COLS = GRID_COLS;
+
+    this.neighbors = new NeighborsHelper(GRID_ROWS, GRID_COLS);
 
     // init adjacents rules
     this.adjacents = initAdjacents(tiles);
 
     const possible = tiles.map((_, i) => i);
-    for(var x = 0; x < GRID_SIZE_X; x++) {
+    for(var x = 0; x <= GRID_ROWS; x++) {
       var row = []
 
-      for(var y = 0; y < GRID_SIZE_Y; y++) {
+      for(var y = 0; y <= GRID_COLS; y++) {
         row.push(new Cell(this.remainingUncollapsedCells, y, x, [...possible], tiles, this.adjacents, frequencies));
         this.remainingUncollapsedCells++;
       }
@@ -64,12 +69,12 @@ class WFCCore {
       const cellY = removalUpdate.cellY;
       const tileId = removalUpdate.tileId;
 
-      const neighbors = this.getNeighbors(cellX, cellY);
+      const neighbors = this.neighbors.getNeighbors(cellX, cellY);
 
       for(var i = 0; i < neighbors.length; i++) {
         const direction = neighbors[i].direction;
-        const neighborX = neighbors[i].x;
-        const neighborY = neighbors[i].y;
+        const neighborX = neighbors[i].row;
+        const neighborY = neighbors[i].col;
 
         const reverse = this.reverseDirection(direction);
         const neighbor = this.grid[neighborX][neighborY];
@@ -124,50 +129,12 @@ class WFCCore {
     }
   }
 
-  getNeighbors(x: number, y:number): Neighbors {
-    var neighbors: Neighbors = [];
-
-    if(x >= 1){
-      neighbors.push({
-        direction: Direction.NORTH,
-        x: x - 1,
-        y: y,
-      });
-    }
-
-    if(x < this.GRID_SIZE_X){
-      neighbors.push({
-        direction: Direction.SOUTH,
-        x: x + 1,
-        y: y,
-      });
-    }
-
-    if(y >= 1){
-      neighbors.push({
-        direction: Direction.WEST,
-        x: x,
-        y: y-1,
-      });
-    }
-
-    if(y < this.GRID_SIZE_Y){
-      neighbors.push({
-        direction: Direction.EAST,
-        x: x,
-        y: y+1,
-      });
-    }
-
-    return neighbors;
-  }
-
   updateHeap() {
     var h: EntropyCell[] = [];
-    for(var x: number = 0; x < this.GRID_SIZE_X; x++) {
-      for(var y:number = 0; y < this.GRID_SIZE_Y; y++) {
-        if(!this.grid[x][y].collapsed) {
-          h.push({cellX: x, cellY: y, entropy: this.grid[x][y].entropy()})
+    for(var row: number = 0; row < this.GRID_ROWS; row++) {
+      for(var col:number = 0; col < this.GRID_COLS; col++) {
+        if(!this.grid[row][col].collapsed) {
+          h.push({cellX: row, cellY: col, entropy: this.grid[row][col].entropy()})
         }
       }
     }

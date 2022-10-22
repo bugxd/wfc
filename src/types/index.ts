@@ -37,8 +37,8 @@ export enum Direction{
 
 export interface Neighbor {
   direction: Direction,
-  x: number,
-  y: number
+  row: number,
+  col: number
 }
 export type Neighbors = Neighbor[]
 
