@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { TilesContext } from "../App";
-import { calcAdjacent } from "../wfc/adjacents";
+import { calcAdjacent } from "../wfc_core/adjacents";
 
 function TilePage() {
   const { id } = useParams();

@@ -1,0 +1,118 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`wfc tests should map grid 1`] = `
+Array [
+  Array [
+    Object {
+      "col": 0,
+      "possible": 3,
+      "row": 0,
+      "svg": undefined,
+    },
+    Object {
+      "col": 1,
+      "possible": 3,
+      "row": 0,
+      "svg": undefined,
+    },
+    Object {
+      "col": 2,
+      "possible": 3,
+      "row": 0,
+      "svg": undefined,
+    },
+  ],
+  Array [
+    Object {
+      "col": 0,
+      "possible": 3,
+      "row": 1,
+      "svg": undefined,
+    },
+    Object {
+      "col": 1,
+      "possible": 3,
+      "row": 1,
+      "svg": undefined,
+    },
+    Object {
+      "col": 2,
+      "possible": 3,
+      "row": 1,
+      "svg": undefined,
+    },
+  ],
+  Array [
+    Object {
+      "col": 0,
+      "possible": 3,
+      "row": 2,
+      "svg": undefined,
+    },
+    Object {
+      "col": 1,
+      "possible": 3,
+      "row": 2,
+      "svg": undefined,
+    },
+    Object {
+      "col": 2,
+      "possible": 3,
+      "row": 2,
+      "svg": undefined,
+    },
+  ],
+]
+`;
+
+exports[`wfc tests should updateHeap 1`] = `
+Heap {
+  "heap": Array [
+    Object {
+      "col": 2,
+      "entropy": 1.0986199429891996,
+      "row": 2,
+    },
+    Object {
+      "col": 1,
+      "entropy": 1.0986199429891996,
+      "row": 2,
+    },
+    Object {
+      "col": 0,
+      "entropy": 1.0986199429891996,
+      "row": 2,
+    },
+    Object {
+      "col": 2,
+      "entropy": 1.0986199429891996,
+      "row": 1,
+    },
+    Object {
+      "col": 1,
+      "entropy": 1.0986199429891996,
+      "row": 1,
+    },
+    Object {
+      "col": 0,
+      "entropy": 1.0986199429891996,
+      "row": 1,
+    },
+    Object {
+      "col": 2,
+      "entropy": 1.0986199429891996,
+      "row": 0,
+    },
+    Object {
+      "col": 1,
+      "entropy": 1.0986199429891996,
+      "row": 0,
+    },
+    Object {
+      "col": 0,
+      "entropy": 1.0986199429891996,
+      "row": 0,
+    },
+  ],
+}
+`;

@@ -1,7 +1,5 @@
 import { Adjacents, Direction, Tile, Tiles } from "../types";
 
-//export const frequencies: number[] = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
-
 export const initAdjacents = (tiles: Tiles): Adjacents => {
   var adjacents: Adjacents = [];
   tiles.forEach((tile, i) => {
