@@ -3,6 +3,8 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import { TilesContext } from "../App";
 import SvgCreator from "../components/SvgCreator";
 import { TilesActionTypes } from "../store/tilesStore";
+import { getPreviewImage } from "../types/tile_preview";
+import { makeTileUid } from "../utils/data_file_utils";
 
 function AddTilePage() {
   const { state, dispatch } = useContext(TilesContext);
@@ -12,6 +14,9 @@ function AddTilePage() {
   const [south, setSouth] = useState<string>("");
   const [west, setWest] = useState<string>("");
   const [frequency, setFrequency] = useState<number>(1);
+  const [degreeNinety, setDegreeNinety] = useState<boolean>(true);
+  const [degreeHundredeighty, setDegreeHundredeighty] = useState<boolean>(true);
+  const [degreeTwohundredseventy, setDegreeTwohundredseventy] = useState<boolean>(true);
 
   const handleAddSvg = (add: string) => {
     setSvg([...svg, add]);
@@ -22,6 +27,8 @@ function AddTilePage() {
   }
 
   const handleSubmit = () => {
+    const uid = makeTileUid();
+
     dispatch({
       type: TilesActionTypes.ADD,
       payload: {
@@ -31,10 +38,64 @@ function AddTilePage() {
           east: east,
           south: south,
           west: west,
+          rotiationDegree: 0,
+          uid: uid,
         },
         frequency: frequency
       }
     });
+
+    if(degreeNinety) {
+      dispatch({
+        type: TilesActionTypes.ADD,
+        payload: {
+          tile: {
+            svg: svg.join(""),
+            north: west,
+            east: north,
+            south: east,
+            west: south,
+            rotiationDegree: 90,
+            uid: uid,
+          },
+          frequency: frequency
+        }
+      });
+    }
+    if(degreeHundredeighty){
+      dispatch({
+        type: TilesActionTypes.ADD,
+        payload: {
+          tile: {
+            svg: svg.join(""),
+            north: south,
+            east: west,
+            south: north,
+            west: east,
+            rotiationDegree: 180,
+            uid: uid,
+          },
+          frequency: frequency
+        }
+      });
+    }
+    if(degreeTwohundredseventy) {
+      dispatch({
+        type: TilesActionTypes.ADD,
+        payload: {
+          tile: {
+            svg: svg.join(""),
+            north: east,
+            east: south,
+            south: west,
+            west: north,
+            rotiationDegree: 270,
+            uid: uid,
+          },
+          frequency: frequency
+        }
+      });
+    }
 
     setSvg([]);
     setNorth("");
@@ -42,21 +103,48 @@ function AddTilePage() {
     setSouth("");
     setWest("");
     setFrequency(1);
+    setDegreeNinety(true);
+    setDegreeHundredeighty(true);
+    setDegreeTwohundredseventy(true);
 
     alert("Saved");
   }
 
-  const preview  = () => {
-    const image = `<svg viewBox='0 0 ${state.cellSize+40} ${state.cellSize+40}' height='${state.cellSize+40}' width='${state.cellSize+40}' xmlns='http://www.w3.org/2000/svg'>
-      <text x="40" y="10" class="small">${north}</text>
-      <text x="90" y="40" class="small" style="writing-mode: tb;">${east}</text>
-      <text x="40" y="90" class="small">${south}</text>
-      <text x="10" y="40" class="small" style="writing-mode: tb;">${west}</text>
-      <rect x="19" y="19" width="62" height="62" style="fill:rgb(255,255,255);stroke:rgb(255,0,0);stroke-width:1" />
-      <svg viewBox='0 0 ${state.cellSize} ${state.cellSize}' height='${state.cellSize}' width='${state.cellSize}' x="20" y="20" xmlns='http://www.w3.org/2000/svg'>
-        ${svg.join()}
-      </svg>
-    </svg>`
+  const preview = () => {
+    const image = getPreviewImage(state.cellSize, svg.join(), north, east, south, west, 0)
+
+    return (
+      <img
+        width = { state.cellSize+40 }
+        height = { state.cellSize+40 }
+        src={ `data:image/svg+xml;utf8,${image}`} alt={`tile_preview` }/>
+    );
+  }
+
+  const preview90 = () => {
+    const image = getPreviewImage(state.cellSize, svg.join(), west, north, east, south, 90)
+
+    return (
+      <img
+        width = { state.cellSize+40 }
+        height = { state.cellSize+40 }
+        src={ `data:image/svg+xml;utf8,${image}`} alt={`tile_preview` }/>
+    );
+  }
+
+  const preview180 = () => {
+    const image = getPreviewImage(state.cellSize, svg.join(), south, west, north, east, 180)
+
+    return (
+      <img
+        width = { state.cellSize+40 }
+        height = { state.cellSize+40 }
+        src={ `data:image/svg+xml;utf8,${image}`} alt={`tile_preview` }/>
+    );
+  }
+
+  const preview270 = () => {
+    const image = getPreviewImage(state.cellSize, svg.join(), east, south, west, north, 270)
 
     return (
       <img
@@ -68,7 +156,12 @@ function AddTilePage() {
 
   return(
     <>
-    <Row><Col>{preview()}</Col></Row>
+    <Row>
+      <Col>{ preview() }</Col>
+      { degreeNinety && (<Col>90 { preview90() }</Col>) }
+      { degreeHundredeighty && (<Col> 180 { preview180() }</Col>) }
+      { degreeTwohundredseventy && <Col>270 { preview270() }</Col> }
+    </Row>
     {svg.map((x, i) => (
       <Row key={`svg_elems_${i}`}>
         <Col xs={10}><pre style={{fontSize: 10}}><code>{x}</code></pre></Col>
@@ -78,6 +171,23 @@ function AddTilePage() {
     <Row>
       <Col>
         <SvgCreator callback={handleAddSvg}/>
+      </Col>
+    </Row>
+    <Row>
+      <Col>
+        <Form.Group className="mb-3" controlId="formDegree90">
+          <Form.Check type="checkbox" label="90 degree" checked={degreeNinety} onChange={e => setDegreeNinety(e.target.checked)}/>
+        </Form.Group>
+      </Col>
+      <Col>
+        <Form.Group className="mb-3" controlId="formDegree180">
+          <Form.Check type="checkbox" label="180 degree" checked={degreeHundredeighty} onChange={e => setDegreeHundredeighty(e.target.checked)}/>
+        </Form.Group>
+      </Col>
+      <Col>
+        <Form.Group className="mb-3" controlId="formDegree270">
+          <Form.Check type="checkbox" label="270 degree" checked={degreeTwohundredseventy} onChange={e => setDegreeTwohundredseventy(e.target.checked)}/>
+        </Form.Group>
       </Col>
     </Row>
     <Row>

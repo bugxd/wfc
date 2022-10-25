@@ -1,0 +1,123 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`data utils tests fromDataFile should get tiles from data 1`] = `
+Array [
+  Object {
+    "east": "east11",
+    "north": "north1",
+    "rotiationDegree": 0,
+    "south": "south1",
+    "svg": "svg1",
+    "uid": "OOOOOOOOOO",
+    "west": "west1",
+  },
+  Object {
+    "east": "east11",
+    "north": "north1",
+    "rotiationDegree": 90,
+    "south": "south1",
+    "svg": "svg1",
+    "uid": "OOOOOOOOOO",
+    "west": "west1",
+  },
+  Object {
+    "east": "east11",
+    "north": "north1",
+    "rotiationDegree": 180,
+    "south": "south1",
+    "svg": "svg1",
+    "uid": "OOOOOOOOOO",
+    "west": "west1",
+  },
+  Object {
+    "east": "east11",
+    "north": "north1",
+    "rotiationDegree": 270,
+    "south": "south1",
+    "svg": "svg1",
+    "uid": "OOOOOOOOOO",
+    "west": "west1",
+  },
+  Object {
+    "east": "east2",
+    "north": "north2",
+    "rotiationDegree": 0,
+    "south": "south2",
+    "svg": "svg2",
+    "uid": "OOOOOOOOOO",
+    "west": "west2",
+  },
+  Object {
+    "east": "east2",
+    "north": "north2",
+    "rotiationDegree": 90,
+    "south": "south2",
+    "svg": "svg2",
+    "uid": "OOOOOOOOOO",
+    "west": "west2",
+  },
+  Object {
+    "east": "east2",
+    "north": "north2",
+    "rotiationDegree": 180,
+    "south": "south2",
+    "svg": "svg2",
+    "uid": "OOOOOOOOOO",
+    "west": "west2",
+  },
+  Object {
+    "east": "east2",
+    "north": "north2",
+    "rotiationDegree": 270,
+    "south": "south2",
+    "svg": "svg2",
+    "uid": "OOOOOOOOOO",
+    "west": "west2",
+  },
+]
+`;
+
+exports[`data utils tests toDataFile should combine same tiles 1`] = `
+Object {
+  "cellSize": 10,
+  "tiles": Array [
+    Object {
+      "east": "east_a",
+      "frequency": 1,
+      "north": "north_a",
+      "rotiationDegrees": Array [
+        0,
+        90,
+        180,
+        270,
+      ],
+      "south": "south_a",
+      "svg": "svg_a",
+      "west": "west_a",
+    },
+    Object {
+      "east": "east_b",
+      "frequency": 2,
+      "north": "north_b",
+      "rotiationDegrees": Array [
+        0,
+        90,
+      ],
+      "south": "south_b",
+      "svg": "svg_b",
+      "west": "west_b",
+    },
+    Object {
+      "east": "east_c",
+      "frequency": 3,
+      "north": "north_c",
+      "rotiationDegrees": Array [
+        0,
+      ],
+      "south": "south_c",
+      "svg": "svg_c",
+      "west": "west_c",
+    },
+  ],
+}
+`;

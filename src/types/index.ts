@@ -4,6 +4,8 @@ export interface Tile {
   east: string;
   south: string;
   west: string;
+  rotiationDegree: number;
+  uid: string;
 }
 export type Tiles = Tile[];
 
@@ -43,12 +45,6 @@ export interface Neighbor {
 }
 export type Neighbors = Neighbor[];
 
-export interface DataFile {
-  cellSize: number,
-  tiles: Tile[],
-  frequencies: number[],
-}
-
 export interface TileEnablerCount  {
   tileId: number;
   north: number;
@@ -62,4 +58,5 @@ export interface TileCell {
   col: number,
   possible: number,
   svg: string | undefined,
+  rotateDegree: number | undefined,
 }

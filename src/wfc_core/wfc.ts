@@ -41,6 +41,7 @@ class Wfc {
           row: r,
           col: c,
           svg: col.selectedTileId !== -1 ? this.tiles[col.selectedTileId].svg : undefined,
+          rotateDegree: col.selectedTileId !== -1 ? this.tiles[col.selectedTileId].rotiationDegree : undefined,
           possible: col.possibleTiles.length,
         })
       )

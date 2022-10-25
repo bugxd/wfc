@@ -19,8 +19,8 @@ function CorePage() {
     <text x="30" y="30" class="small">${cell.possible}</text>`;
 
 
-    const image = `<svg viewBox='0 0 ${state.cellSize} ${state.cellSize}' height='${state.cellSize}' width='${state.cellSize}' xmlns='http://www.w3.org/2000/svg'>
-        ${tile}
+    const image = `<svg viewBox='0 0 ${state.cellSize} ${state.cellSize}' height='${state.cellSize}' width='${state.cellSize}' transform='rotate(${cell.rotateDegree})' xmlns='http://www.w3.org/2000/svg'>
+      ${tile}
     </svg>`
 
     return (
@@ -65,7 +65,7 @@ function CorePage() {
     return () => {
       clearInterval(interval);
     };
-  }, [state.tiles, state.frequencies, state.cellSize, height, width]);
+  }, [state.rows, state.cols, state.tiles, state.frequencies, state.cellSize, height, width]);
 
   return (
     <table>

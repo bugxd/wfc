@@ -13,18 +13,22 @@ describe("wfc tests", () => {
   it("should updateHeap", () => {
     const tiles: Tiles = [
       {
-      svg: "+",
-      north: "aba",
-      east: "aba",
-      south: "aba",
-      west: "aba",
-    },
+        svg: "+",
+        north: "aba",
+        east: "aba",
+        south: "aba",
+        west: "aba",
+        rotiationDegree: 0,
+        uid: "a",
+      },
       {
         svg: "|",
         north: "aba",
         east: "aaa",
         south: "aba",
         west: "aaa",
+        rotiationDegree: 0,
+        uid: "a",
       },
       {
         svg: "-",
@@ -32,6 +36,8 @@ describe("wfc tests", () => {
         east: "aba",
         south: "aaa",
         west: "aba",
+        rotiationDegree: 0,
+        uid: "a",
       }
     ];
     const frequencies: number[] = [1, 1, 1];
@@ -75,18 +81,22 @@ describe("wfc tests", () => {
   it("should map grid", () => {
     const tiles: Tiles = [
       {
-      svg: "+",
-      north: "aba",
-      east: "aba",
-      south: "aba",
-      west: "aba",
-    },
+        svg: "+",
+        north: "aba",
+        east: "aba",
+        south: "aba",
+        west: "aba",
+        rotiationDegree: 0,
+        uid: "a",
+      },
       {
         svg: "|",
         north: "aba",
         east: "aaa",
         south: "aba",
         west: "aaa",
+        rotiationDegree: 0,
+        uid: "a",
       },
       {
         svg: "-",
@@ -94,6 +104,8 @@ describe("wfc tests", () => {
         east: "aba",
         south: "aaa",
         west: "aba",
+        rotiationDegree: 0,
+        uid: "a",
       }
     ];
     const frequencies: number[] = [1, 1, 1];

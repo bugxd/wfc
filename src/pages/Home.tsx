@@ -3,7 +3,7 @@ import { Col, Row } from "react-bootstrap";
 import { TilesContext } from "../App";
 import CellDropZone from "../components/CellDropZone";
 import { TilesActionTypes } from "../store/tilesStore";
-import { DataFile } from "../types";
+import { fromDataFile } from "../utils/data_file_utils";
 
 function HomePage() {
   const { state, dispatch } = useContext(TilesContext);
@@ -40,12 +40,12 @@ function HomePage() {
       console.log("empty file?");
       return;
     }
-    if(typeof content === "string"){
-      const dataContent = JSON.parse(content) as DataFile;
+    if(typeof content === "string") {
+      const dataContent = fromDataFile(content);
       dispatch({type: TilesActionTypes.REPLACE_ALL, payload: {tiles: dataContent.tiles, frequencies: dataContent.frequencies}});
       dispatch({type: TilesActionTypes.SET_CELLSIZE, payload: {cellSize: dataContent.cellSize}});
     }
-    if(content instanceof ArrayBuffer){
+    if(content instanceof ArrayBuffer) {
       console.log("ArrayBuffer");
     }
   }

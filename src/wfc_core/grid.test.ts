@@ -14,18 +14,22 @@ describe("grid tests", () => {
   it("should fill grid", () => {
     const tiles: Tiles = [
       {
-      svg: "+",
-      north: "aba",
-      east: "aba",
-      south: "aba",
-      west: "aba",
-    },
+        svg: "+",
+        north: "aba",
+        east: "aba",
+        south: "aba",
+        west: "aba",
+        rotiationDegree: 0,
+        uid: "a",
+      },
       {
         svg: "|",
         north: "aba",
         east: "aaa",
         south: "aba",
         west: "aaa",
+        rotiationDegree: 0,
+        uid: "a",
       },
       {
         svg: "-",
@@ -33,6 +37,8 @@ describe("grid tests", () => {
         east: "aba",
         south: "aaa",
         west: "aba",
+        rotiationDegree: 0,
+        uid: "a",
       }
     ];
     const frequencies: number[] = [1, 1, 1];
@@ -77,18 +83,22 @@ describe("grid tests", () => {
   it("should remove possible tiles", () => {
     const tiles: Tiles = [
       {
-      svg: "+",
-      north: "aba",
-      east: "aba",
-      south: "aba",
-      west: "aba",
-    },
+        svg: "+",
+        north: "aba",
+        east: "aba",
+        south: "aba",
+        west: "aba",
+        rotiationDegree: 0,
+        uid: "a",
+      },
       {
         svg: "|",
         north: "aba",
         east: "aaa",
         south: "aba",
         west: "aaa",
+        rotiationDegree: 0,
+        uid: "a",
       },
       {
         svg: "-",
@@ -96,6 +106,8 @@ describe("grid tests", () => {
         east: "aba",
         south: "aaa",
         west: "aba",
+        rotiationDegree: 0,
+        uid: "a",
       }
     ];
     const frequencies: number[] = [1, 1, 1];
@@ -139,18 +151,22 @@ describe("grid tests", () => {
   it("should decrease Tile Enablers By Direction", () => {
     const tiles: Tiles = [
       {
-      svg: "+",
-      north: "aba",
-      east: "aba",
-      south: "aba",
-      west: "aba",
-    },
+        svg: "+",
+        north: "aba",
+        east: "aba",
+        south: "aba",
+        west: "aba",
+        rotiationDegree: 0,
+        uid: "a",
+      },
       {
         svg: "|",
         north: "aba",
         east: "aaa",
         south: "aba",
         west: "aaa",
+        rotiationDegree: 0,
+        uid: "a",
       },
       {
         svg: "-",
@@ -158,6 +174,8 @@ describe("grid tests", () => {
         east: "aba",
         south: "aaa",
         west: "aba",
+        rotiationDegree: 0,
+        uid: "a",
       }
     ];
     const frequencies: number[] = [1, 1, 1];
@@ -201,18 +219,22 @@ describe("grid tests", () => {
   it("should collapse a cell", () => {
     const tiles: Tiles = [
       {
-      svg: "+",
-      north: "aba",
-      east: "aba",
-      south: "aba",
-      west: "aba",
-    },
+        svg: "+",
+        north: "aba",
+        east: "aba",
+        south: "aba",
+        west: "aba",
+        rotiationDegree: 0,
+        uid: "a",
+      },
       {
         svg: "|",
         north: "aba",
         east: "aaa",
         south: "aba",
         west: "aaa",
+        rotiationDegree: 0,
+        uid: "a",
       },
       {
         svg: "-",
@@ -220,6 +242,8 @@ describe("grid tests", () => {
         east: "aba",
         south: "aaa",
         west: "aba",
+        rotiationDegree: 0,
+        uid: "a",
       }
     ];
     const frequencies: number[] = [1, 1, 1];
