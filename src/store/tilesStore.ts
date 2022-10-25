@@ -19,7 +19,9 @@ export enum TilesActionTypes {
   REPLACE_ALL = 'REPLACE_ALL',
   ADD = 'ADD',
   DELETE = 'DELETE',
-  SET_CELLSIZE = 'SET_CELLSIZE'
+  SET_CELLSIZE = 'SET_CELLSIZE',
+  SET_ROWS = 'SET_ROWS',
+  SET_COLS = 'SET_COLS'
 }
 
 type TielsActionPayload = {
@@ -37,6 +39,12 @@ type TielsActionPayload = {
   [TilesActionTypes.SET_CELLSIZE]: {
     cellSize: number;
   };
+  [TilesActionTypes.SET_ROWS]: {
+    rows: number;
+  };
+  [TilesActionTypes.SET_COLS]: {
+    cols: number;
+  };
 }
 
 // An interface for our actions
@@ -44,12 +52,16 @@ export type TilesAction = ActionMap<TielsActionPayload>[keyof ActionMap<TielsAct
 
 // An interface for our state
 export interface TilesState {
+  rows: number;
+  cols: number;
   cellSize: number;
   tiles: Tile[];
   frequencies: number[];
 }
 
 export const initialTilesState: TilesState = {
+  rows: 10,
+  cols: 10,
   cellSize: 60,
   tiles: [],
   frequencies: [],
@@ -82,6 +94,16 @@ export function tilesReducer(state: TilesState, action: TilesAction): TilesState
         ...state,
         cellSize: payload.cellSize
       };
+    case TilesActionTypes.SET_ROWS:
+      return {
+        ...state,
+        rows: payload.rows
+    };
+    case TilesActionTypes.SET_COLS:
+      return {
+        ...state,
+        cols: payload.cols
+    };
     default:
       return state;
   }

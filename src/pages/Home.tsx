@@ -8,12 +8,30 @@ import { DataFile } from "../types";
 function HomePage() {
   const { state, dispatch } = useContext(TilesContext);
   const [size, setSize] = useState<number>(state.cellSize);
+  const [rows, setRows] = useState<number>(state.rows);
+  const [cols, setCols] = useState<number>(state.cols);
 
-  const handleSize = (size: number) => {
-    setSize(size);
+  const handleSize = (value: number) => {
+    setSize(value);
     dispatch({
       type: TilesActionTypes.SET_CELLSIZE,
-      payload:{cellSize: size}
+      payload:{cellSize: value}
+    })
+  }
+
+  const handleRows = (value: number) => {
+    setRows(value);
+    dispatch({
+      type: TilesActionTypes.SET_ROWS,
+      payload:{rows: size}
+    })
+  }
+
+  const handleCols = (value: number) => {
+    setCols(value);
+    dispatch({
+      type: TilesActionTypes.SET_COLS,
+      payload:{cols: value}
     })
   }
 
@@ -35,6 +53,12 @@ function HomePage() {
   return (
     <>
       <Row>
+        <Col>
+          Rows: <input type="number" value={rows} onChange={e => handleRows(+e.target.value)} />
+        </Col>
+        <Col>
+          Cols: <input type="number" value={cols} onChange={e => handleCols(+e.target.value)} />
+        </Col>
         <Col>
           Cell Size: <input type="number" value={size} onChange={e => handleSize(+e.target.value)} />
         </Col>

@@ -28,7 +28,7 @@ function App() {
           </Navbar.Collapse>
       </Navbar>
       <TilesContext.Provider value={{state, dispatch}}>
-        <Container>
+        <Container fluid={true}>
           <Routes>
             <Route path="/core" element={<CorePage />} />
             <Route path="/tiles" element={<TilesPage />} />

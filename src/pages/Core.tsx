@@ -6,13 +6,10 @@ import { TileCell } from '../types';
 import Wfc from '../wfc_core/wfc';
 import { initAdjacents } from '../wfc_core/adjacents';
 
-const GRID_ROWS: number = 10;
-const GRID_COLS: number = 10;
-
 function CorePage() {
   const { state } = useContext(TilesContext);
-  const width: number = useMemo(() => state.cellSize * GRID_ROWS, [state.cellSize]);
-  const height: number = useMemo(() => state.cellSize * GRID_COLS, [state.cellSize]);
+  const width: number = useMemo(() => state.cellSize * state.rows, [state.cellSize, state.rows]);
+  const height: number = useMemo(() => state.cellSize * state.cols, [state.cellSize, state.cols]);
 
   const [grid, setGrid] = useState<TileCell[][]>([]);
 
@@ -36,8 +33,8 @@ function CorePage() {
 
   useEffect(() => {
     const wfcCore = new Wfc({
-      gridRows: GRID_ROWS,
-      gridCols: GRID_COLS,
+      gridRows: state.rows,
+      gridCols: state.cols,
       tiles: state.tiles,
       adjacents: (initAdjacents(state.tiles)),
       frequencies: state.frequencies
