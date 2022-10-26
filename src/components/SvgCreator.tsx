@@ -38,7 +38,7 @@ function SvgCreator({ callback }: SvgCreatorProps) {
 
 function PathCreator({ callback }: SvgCreatorProps) {
   const [path, setPath] = useState<string>("");
-  const [strokeWidth, setStrokeWidth] = useState<number>(0);
+  const [strokeWidth, setStrokeWidth] = useState<number>(2);
 
   const handleSubmit = () => {
     callback(`<path d="${path}" stroke="black" stroke-width="${strokeWidth}" fill="none" />`)
@@ -66,7 +66,7 @@ function LineCreator({ callback }: SvgCreatorProps) {
   const [y1, setY1] = useState<number>(0);
   const [x2, setX2] = useState<number>(0);
   const [y2, setY2] = useState<number>(0);
-  const [strokeWidth, setStrokeWidth] = useState<number>(0);
+  const [strokeWidth, setStrokeWidth] = useState<number>(2);
 
   const handleSubmit = () => {
     callback(`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="black" stroke-width="${strokeWidth}" />`)
@@ -106,10 +106,11 @@ function RectCreator({ callback }: SvgCreatorProps) {
   const [y, setY] = useState<number>(0);
   const [width, setWidth] = useState<number>(0);
   const [height, setHeight] = useState<number>(0);
-  const [strokeWidth, setStrokeWidth] = useState<number>(0);
+  const [strokeWidth, setStrokeWidth] = useState<number>(2);
+  const [fill, setFill] = useState<boolean>(false);
 
   const handleSubmit = () => {
-    callback(`<rect x="${x}" y="${y}" width="${width}" height="${height}" stroke="black" fill="none" stroke-width="${strokeWidth}" />`)
+    callback(`<rect x="${x}" y="${y}" width="${width}" height="${height}" stroke="black" fill="${fill ? "black" : "none"}" stroke-width="${strokeWidth}" />`)
   }
 
   return (
@@ -134,6 +135,9 @@ function RectCreator({ callback }: SvgCreatorProps) {
         <Form.Label>Stroke Width</Form.Label>
         <Form.Control type="number" placeholder="Stroke Width" value={strokeWidth} onChange={e => setStrokeWidth(+e.target.value)} />
       </Form.Group>
+      <Form.Group className="mb-3" controlId="formFill">
+        <Form.Check type="checkbox" label="fill" checked={fill} onChange={e => setFill(e.target.checked)}/>
+      </Form.Group>
       <Button variant="primary" onClick={handleSubmit}>
         Add
       </Button>
@@ -145,7 +149,7 @@ function CircleCreator({ callback }: SvgCreatorProps) {
   const [cx, setCX] = useState<number>(0);
   const [cy, setCY] = useState<number>(0);
   const [r, setR] = useState<number>(0);
-  const [strokeWidth, setStrokeWidth] = useState<number>(0);
+  const [strokeWidth, setStrokeWidth] = useState<number>(2);
 
   const handleSubmit = () => {
     callback(`<circle cx="${cx}" cy="${cy}" r="${r}" stroke="black" stroke-width="${strokeWidth}" fill="black" />`)

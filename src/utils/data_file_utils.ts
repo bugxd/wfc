@@ -90,22 +90,22 @@ function rotateDirections(degree:number, dataTile: DataTile): {north: string; ea
       west: dataTile.west,
     }
     case 90: return {
-      north: dataTile.west,
+      north: dataTile.west.split("").reverse().join(""),
       east: dataTile.north,
-      south: dataTile.east,
+      south: dataTile.east.split("").reverse().join(""),
       west: dataTile.south,
     }
     case 180: return {
-      north: dataTile.south,
-      east: dataTile.west,
-      south: dataTile.north,
-      west: dataTile.east,
+      north: dataTile.south.split("").reverse().join(""),
+      east: dataTile.west.split("").reverse().join(""),
+      south: dataTile.north.split("").reverse().join(""),
+      west: dataTile.east.split("").reverse().join(""),
     }
     case 270: return {
       north: dataTile.east,
-      east: dataTile.south,
+      east: dataTile.south.split("").reverse().join(""),
       south: dataTile.west,
-      west: dataTile.north,
+      west: dataTile.north.split("").reverse().join(""),
     }
     default:  return {
       north: dataTile.north,

@@ -51,9 +51,9 @@ function AddTilePage() {
         payload: {
           tile: {
             svg: svg.join(""),
-            north: west,
+            north: west.split("").reverse().join(""),
             east: north,
-            south: east,
+            south: east.split("").reverse().join(""),
             west: south,
             rotiationDegree: 90,
             uid: uid,
@@ -68,10 +68,10 @@ function AddTilePage() {
         payload: {
           tile: {
             svg: svg.join(""),
-            north: south,
-            east: west,
-            south: north,
-            west: east,
+            north: south.split("").reverse().join(""),
+            east: west.split("").reverse().join(""),
+            south: north.split("").reverse().join(""),
+            west: east.split("").reverse().join(""),
             rotiationDegree: 180,
             uid: uid,
           },
@@ -86,9 +86,9 @@ function AddTilePage() {
           tile: {
             svg: svg.join(""),
             north: east,
-            east: south,
+            east: south.split("").reverse().join(""),
             south: west,
-            west: north,
+            west: north.split("").reverse().join(""),
             rotiationDegree: 270,
             uid: uid,
           },
@@ -122,7 +122,7 @@ function AddTilePage() {
   }
 
   const preview90 = () => {
-    const image = getPreviewImage(state.cellSize, svg.join(), west, north, east, south, 90)
+    const image = getPreviewImage(state.cellSize, svg.join(), west.split("").reverse().join(""), north, east.split("").reverse().join(""), south, 90)
 
     return (
       <img
@@ -133,7 +133,7 @@ function AddTilePage() {
   }
 
   const preview180 = () => {
-    const image = getPreviewImage(state.cellSize, svg.join(), south, west, north, east, 180)
+    const image = getPreviewImage(state.cellSize, svg.join(), south.split("").reverse().join(""), west.split("").reverse().join(""), north.split("").reverse().join(""), east.split("").reverse().join(""), 180)
 
     return (
       <img
@@ -144,7 +144,7 @@ function AddTilePage() {
   }
 
   const preview270 = () => {
-    const image = getPreviewImage(state.cellSize, svg.join(), east, south, west, north, 270)
+    const image = getPreviewImage(state.cellSize, svg.join(), east, south.split("").reverse().join(""), west, north.split("").reverse().join(""), 270)
 
     return (
       <img
