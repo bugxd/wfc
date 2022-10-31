@@ -60,8 +60,8 @@ export interface TilesState {
 }
 
 export const initialTilesState: TilesState = {
-  rows: 10,
-  cols: 10,
+  rows: 15,
+  cols: 30,
   cellSize: 30,
   tiles: [],
   frequencies: [],
