@@ -13,24 +13,6 @@ function CorePage() {
 
   const [grid, setGrid] = useState<TileCell[][]>([]);
 
-  const renderTile  = (cell: TileCell) => {
-    const tile = cell.svg ??
-    `<rect width="60" height="60" style="fill:rgb(255,255,255);" />
-    <text x="30" y="30" class="small">${cell.possible}</text>`;
-
-
-    const image = `<svg viewBox='0 0 ${state.cellSize} ${state.cellSize}' height='${state.cellSize}' width='${state.cellSize}' transform='rotate(${cell.rotateDegree})' xmlns='http://www.w3.org/2000/svg'>
-      ${tile}
-    </svg>`
-
-    return (
-      <img
-        width = { state.cellSize }
-        height = { state.cellSize }
-        src={ `data:image/svg+xml;utf8,${image}`} alt={`cell_${cell.row}_${cell.col}` }/>
-    );
-  }
-
   const renderSvgCell = (cell: TileCell) => {
     const y = cell.row * state.cellSize;
     const x = cell.col * state.cellSize;
@@ -96,13 +78,6 @@ function CorePage() {
     <>
       {renderSvg(grid)}
     </>
-    // <table>
-    //   <tbody>
-    //     {grid.map((row, i) => {
-    //       return (<tr key={`row_${i}`}>{row.map((cell,j) => (<td key={`row_${i}_cell_${j}`}>{renderTile(cell)}</td>))}</tr>)
-    //     })}
-    //   </tbody>
-    // </table>
   );
 }
 
